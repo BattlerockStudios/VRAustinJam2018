@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 82896f43107e5b34f82a905f3ed164b9
+guid: 102233766c158bc4b9273f8941fc7696
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: FreakingOutGuyRun1
+    100000: Dragon_Jaw
     100002: //RootNode
-    400000: FreakingOutGuyRun1
+    400000: Dragon_Jaw
     400002: //RootNode
     2100000: palette
-    2300000: FreakingOutGuyRun1
-    3300000: FreakingOutGuyRun1
-    4300000: FreakingOutGuyRun1
+    2300000: Dragon_Jaw
+    3300000: Dragon_Jaw
+    4300000: Dragon_Jaw
   externalObjects: {}
   materials:
     importMaterials: 1
