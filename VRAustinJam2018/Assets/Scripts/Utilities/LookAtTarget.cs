@@ -10,15 +10,20 @@ namespace Battlerock
 
         public bool useMouse = true;
 
+        [SerializeField]
         private Transform focusPoint;
 
         private void Start()
         {
             if (useMouse == false)
             {
-                focusPoint = new GameObject().transform;
-                focusPoint.position = transform.position;
-                focusPoint.transform.parent = transform;
+                if (focusPoint == null)
+                {
+                    focusPoint = new GameObject().transform;
+                    focusPoint.position = transform.position;
+                    focusPoint.transform.parent = transform;
+                }
+                
             }
         }
 
@@ -60,6 +65,18 @@ namespace Battlerock
             }
             else
             {
+                //Determine the target rotation.  This is the rotation if the transform looks at the target point.
+                Vector3 lookRotation = (transform.position - focusPoint.position);
+                if (flipRotation == true)
+                {
+                    lookRotation = -(transform.position - focusPoint.position);
+                }
+
+                Quaternion targetRotation = Quaternion.LookRotation(lookRotation, Vector3.up);
+
+                //Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, speed * Time.deltaTime);
+
                 //transform.forward = Vector3.Normalize(new Vector3(Input.GetAxis(InputManager.RSTICK_HORIZONTAL), 0f, Input.GetAxis(InputManager.RSTICK_VERTICAL)));
 
             }
