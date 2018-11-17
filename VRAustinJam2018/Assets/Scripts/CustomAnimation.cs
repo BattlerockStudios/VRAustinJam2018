@@ -217,7 +217,5 @@ namespace Battlerock
         }
 
         #endregion
-
-
     }
 }
