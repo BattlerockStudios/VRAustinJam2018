@@ -21,6 +21,8 @@ public class Character : MonoBehaviour
 
     public State state = State.Idle;
 
+    public string targetTagName = "Target";
+
     public LayerMask floorLayers;
 
     protected virtual void Awake()
@@ -64,7 +66,7 @@ public class Character : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Target")
+        if (other.tag == targetTagName)
         {
             state = State.Idle;
             stats.speed = Stats.MIN_SPEED;
@@ -78,7 +80,7 @@ public class Character : MonoBehaviour
 
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Target")
+        if (other.tag == targetTagName)
         {
             state = State.Move;
             stats.speed = Stats.MAX_SPEED;
@@ -94,6 +96,6 @@ public class Stats
     public float speed = 2.0f;
     public float jumpForce = 10.0f;
 
-    public const float MAX_SPEED = 0.5f;
+    public const float MAX_SPEED = 1.0f;
     public const float MIN_SPEED = 0.0f;
 }

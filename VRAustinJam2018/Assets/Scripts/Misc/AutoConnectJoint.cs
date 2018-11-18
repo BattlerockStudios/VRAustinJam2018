@@ -4,6 +4,9 @@ public class AutoConnectJoint : MonoBehaviour
 {
     void Awake()
     {
-        GetComponent<CharacterJoint>().connectedBody = transform.parent.GetComponent<Rigidbody>();
+        if (GetComponent<CharacterJoint>().connectedBody == null)
+        {
+            GetComponent<CharacterJoint>().connectedBody = transform.parent.GetComponent<Rigidbody>();
+        }
     }
 }

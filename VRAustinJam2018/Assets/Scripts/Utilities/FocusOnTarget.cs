@@ -8,9 +8,23 @@ public class FocusOnTarget : MonoBehaviour
     public bool canUseYAxis = true;
     public bool canUseZAxis = true;
 
+    public Vector3 offset = Vector3.zero;
+
     private void Start()
     {
-        target = GameManager.Instance.target.transform;
+        if (target == null)
+        {
+            target = GameManager.Instance.target.transform;
+        }
+
+        if (offset != Vector3.zero)
+        {
+            var obj = new GameObject();
+            obj.transform.parent = target;
+            obj.transform.position = offset;
+
+            target = obj.transform;
+        }
     }
 
     private void LateUpdate()
@@ -19,17 +33,17 @@ public class FocusOnTarget : MonoBehaviour
 
         var adjustedTarget = target.position;
 
-        if(canUseXAxis == false)
+        if (canUseXAxis == false)
         {
             adjustedTarget.x = 0;
         }
 
-        if(canUseYAxis == false)
+        if (canUseYAxis == false)
         {
             adjustedTarget.y = 0;
         }
 
-        if(canUseZAxis == false)
+        if (canUseZAxis == false)
         {
             adjustedTarget.z = 0;
         }
