@@ -3,48 +3,25 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Player : MonoBehaviour
+public class Player : Character
 {
-    public enum State
-    {
-        Idle,
-        Move
-    }
-
-    private Rigidbody m_rigidbody;
-    private IEnumerator m_coroutine;
-
-    private Vector3 m_velocity;
-
-    public Stats stats;
     public Timers timers;
 
-    public State state = State.Idle;
+    public bool isAlive = true;
+    public bool isOnGround = false;
 
-    public LayerMask floorLayers;
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         m_rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        if (stats.isAlive == true)
+        if (isAlive == true)
         {
-            switch (state)
-            {
-                case State.Idle:
-                    Idle();
-                    break;
-                case State.Move:
-                    Move();
-                    break;
-                default:
-                    break;
-            }
-            m_rigidbody.velocity = m_velocity;
+            base.Update();
         }
     }
 
@@ -52,7 +29,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) == true)
         {
-            if (stats.isOnGround == true)
+            if (isOnGround == true)
             {
                 timers.windowOfTimeToShortHop = 0.15f;
             }
@@ -61,7 +38,7 @@ public class Player : MonoBehaviour
         if (timers.windowOfTimeToShortHop > 0)
         {
             //Short jump
-            if (Input.GetMouseButtonUp(0) && stats.isOnGround)
+            if (Input.GetMouseButtonUp(0) && isOnGround)
             {
                 timers.windowOfTimeToShortHop = 0;
                 m_velocity.y = Mathf.Sqrt(stats.jumpForce);
@@ -79,43 +56,26 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Idle()
+    protected override void Idle()
     {
-        if (stats.speed == Stats.MIN_SPEED) return;
-        stats.speed = Stats.MIN_SPEED;
+        base.Idle();
     }
 
-    private void Move()
+    protected override void Move()
     {
-        m_velocity = transform.forward * stats.speed;
-        m_velocity.y = m_rigidbody.velocity.y;       
+        base.Move(); 
 
         Jump();
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Target")
-        {
-            state = State.Idle;
-            stats.speed = Stats.MIN_SPEED;
-            m_velocity = Vector3.zero;
-            m_velocity.y = m_rigidbody.velocity.y;
-            m_rigidbody.velocity = m_velocity;
-
-            m_rigidbody.constraints = RigidbodyConstraints.FreezePosition;
-        }
+        base.OnTriggerEnter(other);
     }
 
-    private void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Target")
-        {
-            state = State.Move;
-            stats.speed = Stats.MAX_SPEED;
-            m_rigidbody.constraints = ~RigidbodyConstraints.FreezeAll;
-            m_rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        }
+        base.OnTriggerExit(other);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -124,7 +84,7 @@ public class Player : MonoBehaviour
 
         if (Mathf.Clamp01(collision.contacts[0].point.y) >= 0)
         {
-            stats.isOnGround = true;
+            isOnGround = true;
         }
     }
 
@@ -132,28 +92,14 @@ public class Player : MonoBehaviour
     {
         if (collision.contacts.Length <= 0)
         {
-            stats.isOnGround = false;
+            isOnGround = false;
             return;
         }
 
         if ((floorLayers.value & 1 << collision.contacts[0].otherCollider.gameObject.layer) == 0) return;
 
-        stats.isOnGround = false;
+        isOnGround = false;
     }
-}
-
-[Serializable]
-public class Stats
-{
-    public float speed = 2.0f;
-    public float jumpForce = 10.0f;
-
-    public bool isAlive = true;
-
-    public bool isOnGround = false;
-
-    public const float MAX_SPEED = 0.5f;
-    public const float MIN_SPEED = 0.0f;
 }
 
 [Serializable]

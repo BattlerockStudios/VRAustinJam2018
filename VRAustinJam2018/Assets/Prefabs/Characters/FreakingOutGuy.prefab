@@ -277,14 +277,14 @@ MonoBehaviour:
   stats:
     speed: 0.5
     jumpForce: 5
-    isAlive: 1
-    isOnGround: 0
-  timers:
-    windowOfTimeToShortHop: 0
   state: 1
   floorLayers:
     serializedVersion: 2
     m_Bits: 512
+  timers:
+    windowOfTimeToShortHop: 0
+  isAlive: 1
+  isOnGround: 0
 --- !u!114 &114271751435691286
 MonoBehaviour:
   m_ObjectHideFlags: 1
