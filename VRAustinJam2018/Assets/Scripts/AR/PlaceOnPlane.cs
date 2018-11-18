@@ -18,16 +18,16 @@ public class PlaceOnPlane : MonoBehaviour
         get { return m_PlacedPrefab; }
         set { m_PlacedPrefab = value; }
     }
-    
+
     /// <summary>
     /// The object instantiated as a result of a successful raycast intersection with a plane.
     /// </summary>
-    public GameObject spawnedObject { get; private set; }
+    public GameObject SpawnedObject { get; private set; }
 
     ARSessionOrigin m_SessionOrigin;
-    
+
     static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
-    
+
     void Awake()
     {
         m_SessionOrigin = GetComponent<ARSessionOrigin>();
@@ -35,6 +35,16 @@ public class PlaceOnPlane : MonoBehaviour
 
     void Update()
     {
+        if(m_SessionOrigin.Raycast(Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0)), s_Hits, TrackableType.PlaneWithinPolygon))
+        {
+            if (GameManager.Instance.target != null)
+            { 
+                Pose hitPose = s_Hits[0].pose;
+            
+                GameManager.Instance.target.transform.position = hitPose.position;
+            }
+        }
+
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -43,14 +53,15 @@ public class PlaceOnPlane : MonoBehaviour
             {
                 Pose hitPose = s_Hits[0].pose;
 
-                if (spawnedObject == null)
+                if (SpawnedObject == null)
                 {
-                    spawnedObject = Instantiate(m_PlacedPrefab, hitPose.position, hitPose.rotation);
+                    SpawnedObject = Instantiate(m_PlacedPrefab, hitPose.position, hitPose.rotation);
+                    GameManager.Instance.spawnedARObject = SpawnedObject;
                 }
-                else
-                {
-                    spawnedObject.transform.position = hitPose.position;
-                }
+                //else
+                //{
+                //    SpawnedObject.transform.position = hitPose.position;
+                //}                
             }
         }
     }
