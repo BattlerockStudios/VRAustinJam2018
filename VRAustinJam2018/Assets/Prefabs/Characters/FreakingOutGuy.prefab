@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 114125320259007536}
   - component: {fileID: 54638600464661234}
   - component: {fileID: 136982998547906112}
+  - component: {fileID: 75080399844626088}
   m_Layer: 10
   m_Name: FreakingOutGuy
   m_TagString: Player
@@ -263,6 +264,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!75 &75080399844626088
+ConstantForce:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1372160540399342}
+  m_Enabled: 1
+  m_Force: {x: 0, y: 0, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 100}
+  m_Torque: {x: 0, y: 0, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
 --- !u!114 &114125320259007536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,9 +287,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
-    speed: 0.5
+    speed: 0
     jumpForce: 5
   state: 1
+  targetTagName: Target
   floorLayers:
     serializedVersion: 2
     m_Bits: 512
@@ -300,6 +313,7 @@ MonoBehaviour:
   canUseXAxis: 1
   canUseYAxis: 1
   canUseZAxis: 1
+  offset: {x: 0, y: 0, z: 0}
 --- !u!114 &114751498803738148
 MonoBehaviour:
   m_ObjectHideFlags: 1

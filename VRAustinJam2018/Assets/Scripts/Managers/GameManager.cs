@@ -10,10 +10,18 @@ public class GameManager : MonoBehaviour
 
     public GameObject target;
 
+    public GameObject environment;
+
+    public int points = 0;
+
     // Use this for initialization
     void Awake()
     {
         Instance = this;
-        target = Instantiate(targetPrefab);
+
+        if (target == null)
+        {
+            target = Instantiate(targetPrefab);
+        }
     }
 }

@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: e111043a3a7be6b40b3f84ef28308461
+guid: 04cb90df3f40c5048a86705138046725
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: spike
+    100000: coin
     100002: //RootNode
-    400000: spike
+    400000: coin
     400002: //RootNode
     2100000: palette
-    2300000: spike
-    3300000: spike
-    4300000: spike
+    2300000: coin
+    3300000: coin
+    4300000: coin
   externalObjects: {}
   materials:
     importMaterials: 1

@@ -60,21 +60,32 @@ public class Character : MonoBehaviour
 
     protected virtual void Move()
     {
+        //m_rigidbody.AddRelativeForce(transform.forward * stats.speed);
         m_velocity = transform.forward * stats.speed;
         m_velocity.y = m_rigidbody.velocity.y;
     }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
+        if(other.tag == "Pickup")
+        {
+            GameManager.Instance.points++;
+        }
+
         if (other.tag == targetTagName)
         {
             state = State.Idle;
-            stats.speed = Stats.MIN_SPEED;
-            m_velocity = Vector3.zero;
-            m_velocity.y = m_rigidbody.velocity.y;
-            m_rigidbody.velocity = m_velocity;
 
-            m_rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            //GetComponent<FocusOnTarget>().enabled = false;
+
+            //stats.speed = Stats.MIN_SPEED;
+            //m_velocity = Vector3.zero;
+            //m_velocity.y = m_rigidbody.velocity.y;
+            //m_rigidbody.velocity = m_velocity;
+
+             m_rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
+            //GetComponent<ConstantForce>().relativeForce = new Vector3(0, 0, 100);
         }
     }
 
@@ -83,9 +94,14 @@ public class Character : MonoBehaviour
         if (other.tag == targetTagName)
         {
             state = State.Move;
-            stats.speed = Stats.MAX_SPEED;
+
+            //GetComponent<ConstantForce>().relativeForce = new Vector3(0, 0, 200);
+
+            //GetComponent<FocusOnTarget>().enabled = true;
+
+            //stats.speed = Stats.MAX_SPEED;
             m_rigidbody.constraints = ~RigidbodyConstraints.FreezeAll;
-            m_rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            //m_rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
     }
 }
